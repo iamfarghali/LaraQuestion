@@ -8,8 +8,12 @@
                     <div class="card-header">Questions</div>
                     <div class="card-body">
                         @foreach($questions as $question)
-                            <h2><a href="#">{{$question->title}}</a></h2>
+                            <h2><a href="{{$question->url}}">{{$question->title}}</a></h2>
                             <p>{{\Str::words($question->body, 50, '...')}}</p>
+                            <p class="lead">
+                                Asked by <a href="{{$question->user->url}}">{{$question->user->name}}</a>
+                                <small class="text-muted">{{$question->createdDate}}</small>
+                            </p>
                             <div class="dropdown-divider"></div>
                         @endforeach
                     </div>
