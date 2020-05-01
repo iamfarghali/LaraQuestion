@@ -5,8 +5,16 @@
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="card">
-                    <div class="card-header">Questions</div>
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h1 class="h3">Questions</h1>
+                            <div>
+                                <a href="{{route('questions.create')}}" class="btn btn-outline-dark">Ask Question</a>
+                            </div>
+                        </div>
+                    </div>
                     <div class="card-body">
+                        @include('layouts._message')
                         @foreach($questions as $question)
                             <div class="media">
                                 <div class="d-flex flex-column counters">
@@ -22,7 +30,12 @@
 
                                 </div>
                                 <div class="media-body">
-                                    <h2><a href="{{$question->url}}">{{$question->title}}</a></h2>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h2><a href="{{$question->url}}">{{$question->title}}</a></h2>
+                                        <div>
+                                            <a href="{{route('questions.edit', $question->id)}}" class="btn btn-primary btn-sm">Edit</a>
+                                        </div>
+                                    </div>
                                     <p>{{\Str::words($question->body, 50, '...')}}</p>
                                     <p class="lead">
                                         Asked by <a href="{{$question->user->url}}">{{$question->user->name}}</a>
