@@ -31,9 +31,17 @@
                                 </div>
                                 <div class="media-body">
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <h2><a href="{{$question->url}}">{{$question->title}}</a></h2>
+                                        <h2><a href="{{$question->url}}">{{\Str::words($question->title, 5, '..?')}}</a></h2>
                                         <div>
                                             <a href="{{route('questions.edit', $question->id)}}" class="btn btn-primary btn-sm">Edit</a>
+                                            <form class="d-inline" action="{{route('questions.destroy', $question->id)}}" method="post">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                        class="d-inline btn btn-outline-danger btn-sm"
+                                                        onclick="return confirm('Are You Sure?')"
+                                                >Delete</button>
+                                            </form>
                                         </div>
                                     </div>
                                     <p>{{\Str::words($question->body, 50, '...')}}</p>
