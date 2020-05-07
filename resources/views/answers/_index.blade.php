@@ -6,6 +6,7 @@
                     <h2>{{$answersCount. " " . \Str::plural('Answer', $answersCount )}}</h2>
                 </div>
                 <hr>
+                @include('layouts._message')
                 @foreach($answers as $answer)
                     <div class="media">
                         <div class="d-flex flex-column votes-controls">
