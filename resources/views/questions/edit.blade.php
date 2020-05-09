@@ -9,8 +9,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <h1 class="h3">Edit Question</h1>
                             <div>
-                                <a href="{{route('questions.index')}}" class="btn btn-outline-secondary">Back to
-                                    Questions</a>
+                                <a href="{{route('questions.index')}}" class="btn btn-outline-secondary">Back</a>
                             </div>
                         </div>
                     </div>
