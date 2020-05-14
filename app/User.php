@@ -63,4 +63,14 @@ class User extends Authenticatable
     {
         return $this->belongsToMany( Question::class, 'favorites' );
     }
+
+    public function voteQuestions ()
+    {
+        return $this->morphedByMany( Question::class, 'votable' );
+    }
+
+    public function voteAnswers ()
+    {
+        return $this->morphedByMany( Answer::class, 'votable' );
+    }
 }

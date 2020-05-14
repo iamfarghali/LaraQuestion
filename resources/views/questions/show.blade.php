@@ -19,7 +19,7 @@
                                 <a href="#" title="This Question is useful" class="vote-up">
                                     <i class="fas fa-caret-up fa-4x"></i>
                                 </a>
-                                <span class="votes-count">{{$question->votes}}</span>
+                                <span class="votes-count">{{$question->votes_count}}</span>
                                 <a href="#" title="This Question is not useful" class="vote-down off">
                                     <i class="fas fa-caret-down fa-4x"></i>
                                 </a>
