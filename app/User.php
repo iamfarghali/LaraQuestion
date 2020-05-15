@@ -73,4 +73,19 @@ class User extends Authenticatable
     {
         return $this->morphedByMany( Answer::class, 'votable' );
     }
+
+    public function voteQuestion ( Question $question, $vote )
+    {
+        $voteQuestionsRel = $this->voteQuestions();
+        if ( $voteQuestionsRel->where( 'votable_id', $question->id )->exists() ) {
+            $voteQuestionsRel->updateExistingPivot( $question, [ 'vote' => $vote ] );
+        } else {
+            $voteQuestionsRel->attach( $question, [ 'vote' => $vote ] );
+        }
+        $question->load( 'votes' );
+        $downVotes = (int)$question->downVote()->sum( 'vote' );
+        $upVotes = (int)$question->upVote()->sum( 'vote' );
+        $question->votes_count = $upVotes + $downVotes;
+        $question->save();
+    }
 }
