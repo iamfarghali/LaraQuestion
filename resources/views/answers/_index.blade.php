@@ -27,10 +27,8 @@
                                     <input type="hidden" name="vote" value="1">
                                 </form>
                             @endauth
-
                             {{-- Votes Count --}}
                             <span class="votes-count">{{$answer->votes_count}}</span>
-
                             {{-- DOWN --}}
                             <a href="#"
                                title="This Answer is not useful"
@@ -96,15 +94,10 @@
                                 </div>
                                 <div class="col-md-4"></div>
                                 <div class="col-md-4">
-                                    <span>Answered {{$answer->created_date}}</span>
-                                    <div class="media ">
-                                        <a href="{{$answer->user->url}}" class="pr-2">
-                                            <img src="{{$answer->user->avatar}}" alt="img">
-                                        </a>
-                                        <div class="media-body mt-1">
-                                            <a href="{{$answer->user->url}}">{{\Str::words($answer->user->name, 2, ' ')}}</a>
-                                        </div>
-                                    </div>
+                                    @include('shared._author', [
+                                        'model' => $answer,
+                                        'label' => 'Answered'
+                                    ])
                                 </div>
                             </div>
                         </div>
