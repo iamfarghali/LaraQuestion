@@ -9,67 +9,11 @@
                 @include('layouts._message')
                 @foreach($answers as $answer)
                     <div class="media">
-                        <div class="d-flex flex-column votes-controls">
-                            {{-- Voting --}}
-                            {{-- UP --}}
-                            <a href="#"
-                               title="This Answer is useful"
-                               @auth
-                               onclick="event.preventDefault();document.getElementById('vote-up-answer-{{$answer->id}}').submit();"
-                               @endauth
-                               class="vote-up {{auth()->guest() ? 'off' : ''}}">
-                                <i class="fas fa-caret-up fa-4x"></i>
-                            </a>
-                            @auth()
-                                <form id="vote-up-answer-{{$answer->id}}"
-                                      action="/answers/{{$answer->id}}/vote" method="post">
-                                    @csrf
-                                    <input type="hidden" name="vote" value="1">
-                                </form>
-                            @endauth
-                            {{-- Votes Count --}}
-                            <span class="votes-count">{{$answer->votes_count}}</span>
-                            {{-- DOWN --}}
-                            <a href="#"
-                               title="This Answer is not useful"
-                               @auth
-                               onclick="event.preventDefault();document.getElementById('vote-down-answer-{{$answer->id}}').submit();"
-                               @endauth
-                               class="vote-down {{auth()->guest() ? 'off' : ''}}">
-                                <i class="fas fa-caret-down fa-4x"></i>
-                            </a>
-                            @auth()
-                                <form id="vote-down-answer-{{$answer->id}}"
-                                      action="/answers/{{$answer->id}}/vote" method="post">
-                                    @csrf
-                                    <input type="hidden" name="vote" value="-1">
-                                </form>
-                            @endauth
-                            {{-- END --}}
-
-                            @can('accept', $answer)
-                                <a href="#"
-                                   title="Mark this answer as the best answer."
-                                   onclick="event.preventDefault();document.getElementById('accept-answer-{{$answer->id}}').submit();"
-                                   class="{{$answer->status}} mt-2">
-                                    <i class="fas fa-check fa-2x"></i>
-                                </a>
-                                <form id="accept-answer-{{$answer->id}}"
-                                      action="{{route('answers.accept', $answer->id)}}" method="POST"
-                                      style="display: none;">
-                                    @csrf
-                                </form>
-                            @else
-                                @if($answer->isBest)
-                                    <a href="#"
-                                       title="This answer marked as the best answer by question's owner."
-                                       class="{{$answer->status}} mt-2">
-                                        <i class="fas fa-check fa-2x"></i>
-                                    </a>
-                                @endif
-                            @endcan
-
-                        </div>
+                        @include('shared._vote_controls', [
+                           'model' => $answer,
+                           'modelName' => 'answer',
+                           'uriSegment' => 'answers'
+                        ])
                         <div class="media-body">
                             {!! $answer->body_html !!}
                             <div class="row">
