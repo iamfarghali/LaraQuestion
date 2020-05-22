@@ -34,8 +34,14 @@
                                 </div>
                                 <div class="media-body">
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <h2><a href="{{$question->url}}">{{\Str::words($question->title, 5, '..?')}}</a>
-                                        </h2>
+                                        <div>
+                                            <h2><a href="{{$question->url}}">{{\Str::words($question->title, 5, '..?')}}</a>
+                                            </h2>
+                                            <p class="lead">
+                                                Asked by <a href="{{$question->user->url}}">{{$question->user->name}}</a>
+                                                <small class="text-muted">{{$question->createdDate}}</small>
+                                            </p>
+                                        </div>
                                         <div>
                                             @can('update', $question)
                                                 <a href="{{route('questions.edit', $question->id)}}"
@@ -56,11 +62,7 @@
                                             @endcan
                                         </div>
                                     </div>
-                                    <p>{{\Str::words($question->body, 50, '...')}}</p>
-                                    <p class="lead">
-                                        Asked by <a href="{{$question->user->url}}">{{$question->user->name}}</a>
-                                        <small class="text-muted">{{$question->createdDate}}</small>
-                                    </p>
+                                    <p>{{ $question->excerpt }}</p>
                                 </div>
                             </div>
                             <div class="dropdown-divider"></div>

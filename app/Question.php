@@ -50,7 +50,12 @@ class Question extends Model
 
     public function getBodyHtmlAttribute ()
     {
-        return \Parsedown::instance()->text( $this->body );
+        return clean( $this->bodyHtml() );
+    }
+
+    public function getExcerptAttribute ()
+    {
+        return \Str::words( strip_tags( $this->bodyHtml() ), 60, '...' );
     }
 
     public function acceptBestAnswer ( $answer )
@@ -77,5 +82,10 @@ class Question extends Model
     public function isFavorites ()
     {
         return $this->favorites()->where( 'user_id', auth()->user()->id )->count() > 0;
+    }
+
+    private function bodyHtml ()
+    {
+        return \Parsedown::instance()->text( $this->body );
     }
 }
