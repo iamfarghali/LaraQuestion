@@ -39,13 +39,26 @@
             </div>
         </div>
         {{-- Answers --}}
-        @include('answers._index', [
-             'answersCount' => $question->answers_count ,
-             'answers' => $question->answers
-        ])
+        @if ($question->answers_count != 0)
+            @include('answers._index', [
+                 'answersCount' => $question->answers_count ,
+                 'answers' => $question->answers
+            ])
+        @endif
         @auth
             {{-- Add An Answer --}}
             @include('answers._create')
+        @else
+            <div class="row justify-content-center mt-2">
+                <div class="col-md-10">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <a href="{{route('register')}}"> Create an account</a> or <a
+                                href="{{route('login')}}">login</a> to add your answer.
+                        </div>
+                    </div>
+                </div>
+            </div>
         @endauth
     </div>
 @endsection

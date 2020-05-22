@@ -18,7 +18,7 @@
                     </div>
                     <div class="card-body">
                         @include('layouts._message')
-                        @foreach($questions as $question)
+                        @forelse($questions as $question)
                             <div class="media">
                                 <div class="d-flex flex-column counters">
                                     <div class="votes">
@@ -35,10 +35,12 @@
                                 <div class="media-body">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div>
-                                            <h2><a href="{{$question->url}}">{{\Str::words($question->title, 5, '..?')}}</a>
+                                            <h2>
+                                                <a href="{{$question->url}}">{{\Str::words($question->title, 5, '..?')}}</a>
                                             </h2>
                                             <p class="lead">
-                                                Asked by <a href="{{$question->user->url}}">{{$question->user->name}}</a>
+                                                Asked by <a
+                                                    href="{{$question->user->url}}">{{$question->user->name}}</a>
                                                 <small class="text-muted">{{$question->createdDate}}</small>
                                             </p>
                                         </div>
@@ -66,7 +68,9 @@
                                 </div>
                             </div>
                             <div class="dropdown-divider"></div>
-                        @endforeach
+                        @empty
+                            <div class="alert alert-warning"> There are no questions.</div>
+                        @endforelse
                     </div>
                 </div>
                 <div class="mt-2">
