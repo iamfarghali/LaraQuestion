@@ -38,10 +38,7 @@
                                 </div>
                                 <div class="col-md-4"></div>
                                 <div class="col-md-4">
-                                    @include('shared._author', [
-                                        'model' => $answer,
-                                        'label' => 'Answered'
-                                    ])
+                                    <author-info :model="{{$answer}}" label="Answered"></author-info>
                                 </div>
                             </div>
                         </div>

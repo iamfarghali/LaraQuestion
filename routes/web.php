@@ -26,3 +26,7 @@ Route::post( 'questions/{question}/favorites', 'FavoriteController@store' )->nam
 Route::delete( 'questions/{question}/favorites', 'FavoriteController@destroy' )->name( 'question.unfavorite' );
 Route::post( 'questions/{question}/vote', 'VoteQuestionController' );
 Route::post( 'answers/{answer}/vote', 'VoteAnswerController' );
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
