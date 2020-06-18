@@ -9,7 +9,7 @@
                 @include('layouts._message')
                 @foreach($answers as $answer)
                     <answer :answer="{{$answer}}" inline-template>
-                        <div class="media">
+                        <div class="media" style="border-bottom: 1px solid #f2f2f2; padding: 1rem;">
                             @include('shared._vote_controls', [
                                'model' => $answer,
                                'modelName' => 'answer',
@@ -23,8 +23,10 @@
                                         <textarea v-model="body" class="form-control" name="body" id="body"
                                                   rows="10"></textarea>
                                     </div>
-                                    <button class="btn btn-primary btn-sm" type="submit" :disabled="isInvalid">Update</button>
-                                    <button class="btn btn-outline-danger btn-sm" type="button" @click="cancel">Cancel</button>
+                                    <button class="btn btn-primary btn-sm" type="submit" :disabled="isInvalid">Update
+                                    </button>
+                                    <button class="btn btn-outline-danger btn-sm" type="button" @click="cancel">Cancel
+                                    </button>
                                 </form>
                                 <div v-else>
                                     <div v-html="bodyHtml"></div>
@@ -35,17 +37,7 @@
                                                    class="btn btn-primary btn-sm">Edit</a>
                                             @endcan
                                             @can('delete', $answer)
-                                                <form class="d-inline"
-                                                      action="{{route('questions.answers.destroy', ['question' => $question->id, 'answer' => $answer->id])}}"
-                                                      method="post">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit"
-                                                            class="d-inline btn btn-outline-danger btn-sm"
-                                                            onclick="return confirm('Are You Sure?')"
-                                                    >Delete
-                                                    </button>
-                                                </form>
+                                                <button @click="destroy" class="d-inline btn btn-outline-danger btn-sm">Delete</button>
                                             @endcan
                                         </div>
                                         <div class="col-md-4"></div>
@@ -57,7 +49,6 @@
                             </div>
                         </div>
                     </answer>
-                    <hr>
                 @endforeach
             </div>
         </div>

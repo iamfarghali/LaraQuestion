@@ -40,15 +40,11 @@
 
     @if($model instanceof \App\Question)
         {{-- Favorite --}}
-        @include('shared._favorite', [
-            'question' => $model
-        ])
+        <favorite :question="{{$model}}"></favorite>
         {{-- END --}}
     @elseif($model instanceof \App\Answer)
         {{-- Accept Answer --}}
-        @include('shared._accept', [
-            'answer' => $model
-        ])
+        <accept :answer="{{$model}}"></accept>
         {{-- END --}}
     @endif
 </div>

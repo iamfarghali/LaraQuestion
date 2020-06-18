@@ -8,6 +8,13 @@ require('./bootstrap');
 require('./fontawesome')
 
 window.Vue = require('vue');
+import VueIziToast from 'vue-izitoast';
+import 'izitoast/dist/css/iziToast.css';
+import Auhorization from './authorization/authorize';
+
+Vue.use(VueIziToast);
+Vue.use(Auhorization);
+
 
 /**
  * The following block of code may be used to automatically register your
@@ -22,6 +29,8 @@ window.Vue = require('vue');
 
 Vue.component('author-info', require('./components/AuthorInfo.vue').default);
 Vue.component('answer', require('./components/Answer.vue').default);
+Vue.component('favorite', require('./components/Favorite.vue').default);
+Vue.component('accept', require('./components/Accept.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
