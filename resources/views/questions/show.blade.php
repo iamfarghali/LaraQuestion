@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
@@ -15,11 +14,7 @@
                     </div>
                     <div class="card-body">
                         <div class="media">
-                            @include('shared._vote_controls', [
-                                'model' => $question,
-                                'modelName' => 'question',
-                                'uriSegment' => 'questions'
-                            ])
+                            <vote :model="{{$question}}" name="question"></vote>
                             <div class="media-body">
                                 {!! $question->body_html !!}
                                 <div class="row">

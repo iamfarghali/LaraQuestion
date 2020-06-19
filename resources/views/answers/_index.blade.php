@@ -10,11 +10,7 @@
                 @foreach($answers as $answer)
                     <answer :answer="{{$answer}}" inline-template>
                         <div class="media" style="border-bottom: 1px solid #f2f2f2; padding: 1rem;">
-                            @include('shared._vote_controls', [
-                               'model' => $answer,
-                               'modelName' => 'answer',
-                               'uriSegment' => 'answers'
-                            ])
+                            <vote :model="{{$answer}}" name="answer"></vote>
                             <div class="media-body">
                                 {{-- Editing Form --}}
                                 <form v-if="editing" @submit.prevent="update">
@@ -37,7 +33,9 @@
                                                    class="btn btn-primary btn-sm">Edit</a>
                                             @endcan
                                             @can('delete', $answer)
-                                                <button @click="destroy" class="d-inline btn btn-outline-danger btn-sm">Delete</button>
+                                                <button @click="destroy" class="d-inline btn btn-outline-danger btn-sm">
+                                                    Delete
+                                                </button>
                                             @endcan
                                         </div>
                                         <div class="col-md-4"></div>
