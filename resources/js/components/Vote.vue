@@ -29,7 +29,7 @@
         },
         data() {
             return {
-                count: this.model.votes_count,
+                count: this.model.votes_count || 0,
                 id: this.model.id
             }
         },
@@ -58,9 +58,13 @@
                 this._vote(-1);
             },
             _vote(vote) {
+                if (!this.signedIn) {
+                    this.$toast.warning('Please login.', 'Warning', {timeout: 6000, position: 'topRight'});
+                    return;
+                }
                 axios.post(this.endpoint, {vote}).then(res => {
                     this.$toast.success(res.data.message, 'Success', {timeout: 6000, position: 'topRight'});
-                    this.count += vote;
+                    this.count = res.data.votesCount;
                 });
             }
         }

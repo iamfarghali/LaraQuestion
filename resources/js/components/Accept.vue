@@ -13,12 +13,20 @@
 </template>
 
 <script>
+    import EventBus from "../event-bus";
+
     export default {
         props: ['answer'],
         data() {
             return {
-                isBest: this.answer.is_best
+                isBest: this.answer.is_best,
+                id: this.answer.id
             };
+        },
+        created() {
+            EventBus.$on('accept', id => {
+                this.isBest = (id === this.id);
+            });
         },
         methods: {
             accepted() {
@@ -27,7 +35,7 @@
                         timeout: 6000,
                         position: 'topRight'
                     });
-                    this.isBest = true;
+                    EventBus.$emit('accept', this.id);
                 });
             }
         },
@@ -45,7 +53,7 @@
                 ];
             },
             endpoint() {
-                return `/answers/${this.answer.id}/accept `
+                return `/answers/${this.id}/accept `
             }
         }
     }

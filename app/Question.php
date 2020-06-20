@@ -82,6 +82,9 @@ class Question extends Model
 
     public function isFavorites ()
     {
+        if ( !isset( auth()->user()->id ) ) {
+            return 0;
+        }
         return $this->favorites()->where( 'user_id', auth()->user()->id )->count() > 0;
     }
 

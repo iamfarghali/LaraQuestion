@@ -8,9 +8,25 @@ use Illuminate\Http\Request;
 
 class AnswerController extends Controller
 {
+    public function __construct ()
+    {
+        $this->middleware( 'auth' )->except( 'index' );
+    }
+
+    public function index ( Question $question )
+    {
+        return $question->answers()->with( 'user' )->simplePaginate( 2 );
+    }
+
     public function store ( Question $question, Request $request )
     {
-        $question->answers()->create( $request->validate( [ 'body' => 'required' ] ) + [ 'user_id' => auth()->user()->id ] );
+        $answer = $question->answers()->create( $request->validate( [ 'body' => 'required' ] ) + [ 'user_id' => auth()->user()->id ] );
+        if ( $request->expectsJson() ) {
+            return response()->json( [
+                'message' => 'Your answer has been submitted successfully.',
+                'answer'  => $answer->load('user')
+            ] );
+        }
         return back()->with( 'success', 'Your answer has been submitted successfully.' );
     }
 
@@ -37,10 +53,10 @@ class AnswerController extends Controller
     {
         $this->authorize( 'delete', $answer );
         $answer->delete();
-        if (request()->expectsJson()) {
-            return response()->json([
+        if ( request()->expectsJson() ) {
+            return response()->json( [
                 'message' => 'Your answer has been deleted successfully.'
-            ]);
+            ] );
         }
         return back()->with( 'success', 'Your answer has been deleted successfully.' );
     }

@@ -31,15 +31,8 @@
             </div>
         </div>
         {{-- Answers --}}
-        @if ($question->answers_count != 0)
-            @include('answers._index', [
-                 'answersCount' => $question->answers_count ,
-                 'answers' => $question->answers
-            ])
-        @endif
+        <answers :question="{{$question}}"></answers>
         @auth
-            {{-- Add An Answer --}}
-            @include('answers._create')
         @else
             <div class="row justify-content-center mt-2">
                 <div class="col-md-10">

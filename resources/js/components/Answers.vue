@@ -1,0 +1,67 @@
+<template>
+    <div>
+        <div class="row justify-content-center mt-4" v-cloak v-if="count">
+            <div class="col-md-10">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title" style="border-bottom: 1px solid #f4f4f4;">
+                            <h2>{{title}}</h2>
+                        </div>
+                        <answer v-for="(answer, index) in answers"
+                                @deleted="remove(index)"
+                                :answer="answer"
+                                :key="answer.id"></answer>
+                        <div class="text-center my-3" v-if="nextUrl">
+                            <button @click.prevent="fetch(nextUrl)" class="btn btn-outline-dark">Load more answers
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <new-answer @created="add" :question-id="question.id"></new-answer>
+    </div>
+
+</template>
+
+<script>
+    import Answer from "./Answer";
+    import NewAnswer from "./NewAnswer";
+
+    export default {
+        props: ['question'],
+        data() {
+            return {
+                questionId: this.question.id,
+                count: this.question.answers_count,
+                answers: [],
+                nextUrl: null
+            };
+        },
+        created() {
+            this.fetch(`/questions/${this.questionId}/answers`);
+        },
+        methods: {
+            fetch(endpoint) {
+                axios.get(endpoint).then(({data}) => {
+                    this.answers.push(...(data.data));
+                    this.nextUrl = data.next_page_url;
+                });
+            },
+            add(answer) {
+              this.answers.push(answer);
+              this.count++;
+            },
+            remove(index) {
+                this.answers.splice(index, 1);
+                this.count--;
+            }
+        },
+        components: {Answer, NewAnswer},
+        computed: {
+            title() {
+                return this.count + ' ' + (this.count > 1 ? 'Answers' : 'Answer');
+            }
+        }
+    }
+</script>
