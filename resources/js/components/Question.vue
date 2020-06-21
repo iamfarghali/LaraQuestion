@@ -61,14 +61,16 @@
 </template>
 
 <script>
+    import modifications from "../mixins/modifications";
+
     export default {
         props: ['question'],
+        mixins: [modifications],
         data() {
             return {
                 title: this.question.title,
                 body: this.question.body,
                 bodyHtml: this.question.body_html,
-                editing: false,
                 id: this.question.id,
                 cachedQuestion: {}
             };
@@ -82,56 +84,32 @@
             }
         },
         methods: {
-            edit() {
+            cacheData() {
                 this.cachedQuestion = {
                     title: this.title,
                     body: this.body
                 };
-                this.editing = true;
             },
-            cancel: function () {
+            restoreCachedData() {
                 this.title = this.cachedQuestion.title;
                 this.body = this.cachedQuestion.body;
-                this.editing = false;
             },
-            update: function () {
-                axios.put(this.endpoint, {
+            payload() {
+                return {
                     title: this.title,
                     body: this.body
-                }).then(({data}) => {
-                    this.title = data.question.title;
-                    this.bodyHtml = data.question.body_html;
-                    this.body = data.question.body;
-                    this.editing = false;
-                    this.$toast.success(data.message, 'Success', {timeout: 6000, position: 'topRight'});
-                }).catch(err => {
-                    this.editing = false;
-                    this.$toast.error(err.response.data.message, 'Error', {timeout: 6000, position: 'topRight'});
-                });
+                };
             },
-            destroy: function () {
-                this.$toast.question('Are you sure about that?', 'Confirm', {
-                    timeout: 20000, close: false,
-                    overlay: true, displayMode: 'once',
-                    id: 'question', zindex: 999, title: 'Hey',
-                    position: 'center',
-                    buttons: [
-                        ['<button><b>YES</b></button>', (instance, toast) => {
-                            axios.delete(this.endpoint).then(({data}) => {
-                                this.$toast.success(data.message, 'Success', {timeout: 2000, position: 'topRight'});
-                                setTimeout(() => {
-                                    window.location.href = '/questions';
-                                }, 2200);
-                            });
-                            instance.hide({transitionOut: 'fadeOut'}, toast, 'button');
-
-                        }, true],
-                        ['<button>NO</button>', (instance, toast) => {
-                            instance.hide({transitionOut: 'fadeOut'}, toast, 'button');
-                        }],
-                    ],
-                });
+            setReturnedData(data) {
+                this.title = data.question.title;
+                this.bodyHtml = data.question.body_html;
+                this.body = data.question.body;
             },
+            afterDeleting() {
+                setTimeout(() => {
+                    window.location.href = '/questions';
+                }, 2200);
+            }
         }
     }
 </script>

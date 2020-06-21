@@ -24,7 +24,7 @@ class AnswerController extends Controller
         if ( $request->expectsJson() ) {
             return response()->json( [
                 'message' => 'Your answer has been submitted successfully.',
-                'answer'  => $answer->load('user')
+                'answer'  => $answer->load( 'user' )
             ] );
         }
         return back()->with( 'success', 'Your answer has been submitted successfully.' );
@@ -42,8 +42,8 @@ class AnswerController extends Controller
         $answer->update( $request->validate( [ 'body' => 'required' ] ) );
         if ( $request->expectsJson() ) {
             return response()->json( [
-                'message'   => 'Your answer has been updated successfully.',
-                'body_html' => $answer->body_html,
+                'message' => 'Your answer has been updated successfully.',
+                'answer'  => $answer,
             ] );
         }
         return redirect()->route( 'questions.show', $question->slug )->with( 'success', 'Your answer has been updated successfully.' );

@@ -34,11 +34,13 @@
     </div>
 </template>
 <script>
+    import modifications from "../mixins/modifications";
+
     export default {
         props: ['answer'],
+        mixins: [modifications],
         data: function () {
             return {
-                editing: false,
                 body: this.answer.body,
                 bodyHtml: this.answer.body_html,
                 id: this.answer.id,
@@ -47,45 +49,24 @@
             };
         },
         methods: {
-            edit: function () {
+            cacheData() {
                 this.cachedAnswer = this.body;
-                this.editing = true;
             },
-            cancel: function () {
+            restoreCachedData() {
                 this.body = this.cachedAnswer;
-                this.editing = false;
             },
-            update: function () {
-                axios.patch(this.endpoint, {
+            payload() {
+                return {
                     body: this.body
-                }).then(res => {
-                    this.bodyHtml = res.data.body_html;
-                    this.editing = false;
-                    this.$toast.success(res.data.message, 'Success', {timeout: 6000, position: 'topRight'});
-                }).catch(err => {
-                    this.editing = false;
-                    this.$toast.error(err.response.data.message, 'Error', {timeout: 6000, position: 'topRight'});
-                });
+                };
             },
-            destroy: function () {
-                this.$toast.question('Are you sure about that?', 'Confirm', {
-                    timeout: 20000, close: false,
-                    overlay: true, displayMode: 'once',
-                    id: 'question', zindex: 999, title: 'Hey',
-                    position: 'center',
-                    buttons: [
-                        ['<button><b>YES</b></button>', (instance, toast) => {
-                            axios.delete(this.endpoint);
-                            this.$emit('deleted');
-                            instance.hide({transitionOut: 'fadeOut'}, toast, 'button');
-
-                        }, true],
-                        ['<button>NO</button>', (instance, toast) => {
-                            instance.hide({transitionOut: 'fadeOut'}, toast, 'button');
-                        }],
-                    ],
-                });
+            setReturnedData(data) {
+                this.bodyHtml = data.answer.body_html;
+                this.body = data.answer.body;
             },
+            afterDeleting() {
+                this.$emit('deleted');
+            }
         },
         computed: {
             isInvalid() {
