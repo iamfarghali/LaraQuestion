@@ -75,6 +75,7 @@
                     position: 'center',
                     buttons: [
                         ['<button><b>YES</b></button>', (instance, toast) => {
+                            axios.delete(this.endpoint);
                             this.$emit('deleted');
                             instance.hide({transitionOut: 'fadeOut'}, toast, 'button');
 

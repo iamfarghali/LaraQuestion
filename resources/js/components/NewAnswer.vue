@@ -1,6 +1,6 @@
 <template>
     <div class="row justify-content-center mt-2">
-        <div class="col-md-10">
+        <div v-if="signedIn" class="col-md-10">
             <div class="card">
                 <div class="card-body">
                     <div class="card-title">
@@ -12,6 +12,14 @@
                         </div>
                         <button type="submit" :disabled="isInvalid" class="btn btn-outline-primary">Answer</button>
                     </form>
+                </div>
+            </div>
+        </div>
+        <div v-else class="col-md-10">
+            <div class="card">
+                <div class="card-body text-center">
+                    <a href="/register"> Create an account</a> or <a
+                    href="/login">login</a> to add your answer.
                 </div>
             </div>
         </div>

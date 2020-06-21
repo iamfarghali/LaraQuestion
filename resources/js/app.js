@@ -28,8 +28,8 @@ Vue.use(Auhorization);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('author-info', require('./components/AuthorInfo.vue').default);
-Vue.component('answers', require('./components/Answers.vue').default);
 Vue.component('vote', require('./components/Vote.vue').default);
+Vue.component('question-page', require('./pages/QuestionPage.vue').default);
 
 
 /**
